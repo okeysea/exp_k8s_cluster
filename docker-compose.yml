@@ -1,0 +1,13 @@
+version: '3'
+services:
+  terraform:
+    build:
+      context: .
+      dockerfile: ./containers/terraform/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./terraform:/terraform
+    working_dir: /terraform
+    entrypoint: ash
+    tty: true
