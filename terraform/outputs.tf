@@ -2,7 +2,7 @@
 # SSH KEYS #################################
 #
 output "ssh_key_name" {
-  value = var.ssh_key_name
+  value = var.SSH_KEY_NAME
 }
 
 output "ssh_public_file" {
