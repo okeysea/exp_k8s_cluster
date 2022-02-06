@@ -1,0 +1,15 @@
+---
+
+- block:
+
+  - name: Create ansible user
+    user:
+      name: "{{ ansible_user_name }}"
+      password: "{{ ansible_user_pwd }}"
+      groups: "{{ ansible_user_group }}"
+      shell: /bin/bash
+
+  become: yes
+  tags:
+    - construct
+    - ansible_user

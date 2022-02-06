@@ -1,0 +1,47 @@
+---
+- block:
+
+  - name: Check existing sshd_config buckup file
+    stat:
+      path: /etc/ssh/sshd_config.bk
+    register: sshd_config_bkup
+
+  - debug: var=sshd_config_bkup
+
+  - name: Copy sshd_config to bk
+    command: cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
+    when: sshd_config_bkup.stat.exists == False
+
+  - name: Modify sshd_config
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      state: present
+      backrefs: yes
+      regexp: '{{ item.regexp }}'
+      line: '{{ item.line }}'
+    with_items:
+      - regexp: '^#?\s*Port'
+        line: 'Port {{ ansible_ssh_port }}'
+      - regexp: '^#?\s*PermitRootLogin'
+        line: 'PermitRootLogin no'
+      - regexp: '^PasswordAuthentication yes'
+        line: 'PasswordAuthentication no'
+      - regexp: '^#?\s*PubkeyAuthentication'
+        line: 'PubkeyAuthentication yes'
+    notify:
+      - Restart sshd
+    tags:
+      - construct
+      - ssh
+
+  - name: Check sshd_config changed
+    command: diff /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
+    register: sshd_config_diff
+    ignore_errors: yes
+  
+  - debug: var=sshd_config_diff.stdout_lines
+
+  become: yes
+  tags:
+    - construct
+    - sshd

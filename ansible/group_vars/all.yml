@@ -1,0 +1,6 @@
+---
+
+ansible_ssh_port: "{{ lookup('env', 'ANSIBLE_SSH_PORT') }}"
+ansible_user_name: "{{ lookup('env', 'ANSIBLE_USER_NAME') }}"
+ansible_user_pwd: "{{ lookup('env', 'ANSIBLE_USER_PASSWORD')|password_hash('sha512') }}"
+ansible_user_group: "{{ lookup('env', 'ANSIBLE_USER_GROUP') }}"

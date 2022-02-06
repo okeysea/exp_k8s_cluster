@@ -1,0 +1,10 @@
+---
+
+- block:
+  
+  - name: Restart sshd
+    become: yes
+    service:
+      name: sshd
+      state: restarted
+      enabled: yes
