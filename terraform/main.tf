@@ -1,5 +1,5 @@
 locals {
-  ssh_config_file = "/root/.ssh/config"
+  ssh_config_file = "/root/ssh_config/config"
 }
 
 #### SSH key
