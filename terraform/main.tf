@@ -25,8 +25,21 @@ resource "local_file" "ssh_config" {
   filename = local.ssh_config_file
   content  = <<-EOF
   Host ${vultr_instance.k8s_master.label}
+      User root
       Hostname ${vultr_instance.k8s_master.main_ip}
       IdentityFile ${local.private_key_file}
+      StrictHostKeyChecking no
+      UserKnownHostsFile /dev/null
+      Port 22
+
+  # alias -> ${vultr_instance.k8s_master.label} 
+  Host ${vultr_instance.k8s_master.main_ip}
+      User root
+      Hostname ${vultr_instance.k8s_master.main_ip}
+      IdentityFile ${local.private_key_file}
+      StrictHostKeyChecking no
+      UserKnownHostsFile /dev/null
+      Port 22
   EOF
 
   provisioner "local-exec" {
