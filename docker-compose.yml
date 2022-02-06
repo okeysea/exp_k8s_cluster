@@ -11,3 +11,18 @@ services:
     working_dir: /terraform
     entrypoint: ash
     tty: true
+
+  ansible:
+    build:
+      context: .
+      dockerfile: ./containers/ansible/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./ansible:/ansible
+      - python-packages:/root/.local/share
+    working_dir: /ansible
+    tty: true
+
+volumes:
+  python-packages:
