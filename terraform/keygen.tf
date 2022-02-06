@@ -1,6 +1,6 @@
 locals {
-  public_key_file  = "~/.ssh/${var.ssh_key_name}.id_rsa.pub"
-  private_key_file = "~/.ssh/${var.ssh_key_name}.id_rsa"
+  public_key_file  = "/root/.ssh/${var.ssh_key_name}.id_rsa.pub"
+  private_key_file = "/root/.ssh/${var.ssh_key_name}.id_rsa"
 }
 
 # key pair
