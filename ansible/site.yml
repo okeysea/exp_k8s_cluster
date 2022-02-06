@@ -1,6 +1,3 @@
 ---
-- hosts: all
-  tasks:
-    - name: debug var
-      debug:
-        msg: "p-num-{{parent_num}}, c-num-{{child_num}}, node-var={{node_var}}"
+
+- import_playbook: k8s_cluster.yml
