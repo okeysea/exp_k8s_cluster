@@ -4,6 +4,7 @@ RUN apt-get update \
   && apt-get install --no-install-recommends -y \
     make \
     sshpass \
+    ssh \
   && apt-get autoremove \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
