@@ -1,0 +1,10 @@
+---
+- block:
+
+  - name: Update apt-get all
+    apt: name=* state=latest update_cache=yes
+
+  become: yes
+  tags:
+    - construct
+    - aptupdateall

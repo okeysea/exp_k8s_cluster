@@ -6,3 +6,9 @@ secrets/
 .terraform
 *.tfstate
 *.tfstate.backup
+
+# ssh keys
+ssh_keys/*
+!ssh_keys/.keep
+ssh_config/*
+!ssh_config/.keep

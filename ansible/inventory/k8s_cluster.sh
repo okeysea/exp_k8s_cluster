@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-#ansible-inventory -i vultr.yml --list
-
-cat ./inventory/inventory_test.json
+ansible-inventory -i ./inventory/vultr.yml --list
+# cat ./inventory/inventory_test.json

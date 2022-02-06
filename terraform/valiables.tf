@@ -20,3 +20,9 @@ variable "vultr_region" {}
 variable "k8s_master_plan" {}
 variable "k8s_worker_plan" {}
 variable "k8s_os_id" {}
+
+variable "ssh_key_name" {
+  type        = string
+  description = "keypair name"
+  default     = "k8s_keypair"
+}

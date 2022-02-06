@@ -8,8 +8,9 @@ services:
       - .env
     volumes:
       - ./terraform:/terraform
+      - ./ssh_keys:/root/.ssh
+      - ./ssh_config:/root/ssh_config
     working_dir: /terraform
-    entrypoint: ash
     tty: true
 
   ansible:
@@ -20,6 +21,8 @@ services:
       - .env
     volumes:
       - ./ansible:/ansible
+      - ./ssh_keys:/root/.ssh
+      - ./ssh_config:/root/ssh_config
       - python-packages:/root/.local/share
     working_dir: /ansible
     tty: true
