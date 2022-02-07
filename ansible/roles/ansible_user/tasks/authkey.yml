@@ -1,0 +1,14 @@
+---
+
+- block:
+
+  - name: Register authorized_key
+    authrized_key:
+      user: "{{ ansible_user_name }}"
+      key: "{{ lookup('file', ansible_ssh_key_pub_path) }}"
+      state: present
+
+  become: yes
+  tags:
+    - construct
+    - authkey
