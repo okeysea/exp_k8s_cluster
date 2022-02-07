@@ -5,6 +5,7 @@ RUN apt-get update \
     make \
     sshpass \
     ssh \
+    python3-apt \
   && apt-get autoremove \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
