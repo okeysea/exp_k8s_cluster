@@ -12,6 +12,15 @@
     command: cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
     when: sshd_config_bkup.stat.exists == False
 
+  ## debug
+  # - name: Check ls user bin
+  #   command: ls -aG /usr/bin
+  #   register: ls_user_bin
+  #   ignore_errors: yes
+  # 
+  # - debug: var=ls_user_bin.stdout_lines
+  ########
+
   - name: Modify sshd_config
     lineinfile:
       dest: /etc/ssh/sshd_config
@@ -21,7 +30,7 @@
       line: '{{ item.line }}'
     with_items:
       - regexp: '^#?\s*Port'
-        line: 'Port {{ ansible_ssh_port }}'
+        line: 'Port {{ var_ansible_ssh_port }}'
       - regexp: '^#?\s*PermitRootLogin'
         line: 'PermitRootLogin no'
       - regexp: '^PasswordAuthentication yes'
@@ -29,7 +38,7 @@
       - regexp: '^#?\s*PubkeyAuthentication'
         line: 'PubkeyAuthentication yes'
     notify:
-      - Restart sshd
+      - Restart ssh.service
     tags:
       - construct
       - ssh
