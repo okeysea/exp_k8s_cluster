@@ -1,8 +1,10 @@
 ---
 
-- hosts: all
+- hosts: all,!executers
   gather_facts: true
   become: true
+  vars:
+    executer_host: "executer"
   roles:
     - ansible_user
     - opsystem
