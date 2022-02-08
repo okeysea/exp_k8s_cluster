@@ -3,9 +3,9 @@
 - block:
 
   - name: Register authorized_key
-    authrized_key:
-      user: "{{ ansible_user_name }}"
-      key: "{{ lookup('file', ansible_ssh_key_pub_path) }}"
+    authorized_key:
+      user: "{{ var_ansible_user_name }}"
+      key: "{{ hostvars[executer_host].executer_key.public_key }}"
       state: present
 
   become: yes

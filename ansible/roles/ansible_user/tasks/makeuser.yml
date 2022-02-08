@@ -11,7 +11,7 @@
     user:
       name: "{{ var_ansible_user_name }}"
       password: "{{ var_ansible_user_pwd }}"
-      groups: "{{ var_ansible_user_group }}"
+      groups: "{{ var_ansible_user_group }},wheel"
       shell: /bin/bash
   
   become: yes
