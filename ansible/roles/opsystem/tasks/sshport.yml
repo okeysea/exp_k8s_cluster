@@ -1,0 +1,18 @@
+---
+
+- block:
+
+  - name: Setting ufw
+    ufw:
+      state: enabled
+      policy: deny
+
+  - name: Allow all access to ssh port
+    ufw:
+      rule: allow
+      port: "{{ var_ansible_ssh_port }}"
+
+  become: yes
+  tags:
+    - construct
+    - ssh

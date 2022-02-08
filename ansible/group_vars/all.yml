@@ -1,6 +1,9 @@
 ---
 
-ansible_ssh_port: "{{ lookup('env', 'ANSIBLE_SSH_PORT') }}"
-ansible_user_name: "{{ lookup('env', 'ANSIBLE_USER_NAME') }}"
-ansible_user_pwd: "{{ lookup('env', 'ANSIBLE_USER_PASSWORD')|password_hash('sha512') }}"
-ansible_user_group: "{{ lookup('env', 'ANSIBLE_USER_GROUP') }}"
+var_ansible_ssh_port: "{{ lookup('env', 'VAR_ANSIBLE_SSH_PORT') }}"
+var_ansible_user_name: "{{ lookup('env', 'VAR_ANSIBLE_USER_NAME') }}"
+var_ansible_user_pwd: "{{ lookup('env', 'VAR_ANSIBLE_USER_PASSWORD')|password_hash('sha512') }}"
+var_ansible_user_group: "{{ lookup('env', 'VAR_ANSIBLE_USER_GROUP') }}"
+var_ansible_ssh_key_name: "{{ lookup('env', 'SSH_KEY_NAME') }}"
+var_ansible_ssh_key_pri_path: "{{ '/root/.ssh/' ~ var_ansible_ssh_key_name ~ '.ansible_executer.id_rsa' }}"
+var_ansible_ssh_key_pub_path: "{{ var_ansible_ssh_key_pri_path ~ '.pub' }}"

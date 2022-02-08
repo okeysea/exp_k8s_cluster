@@ -12,6 +12,15 @@
     command: cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
     when: sshd_config_bkup.stat.exists == False
 
+  ## debug
+  # - name: Check ls user bin
+  #   command: ls -aG /usr/bin
+  #   register: ls_user_bin
+  #   ignore_errors: yes
+  # 
+  # - debug: var=ls_user_bin.stdout_lines
+  ########
+
   - name: Modify sshd_config
     lineinfile:
       dest: /etc/ssh/sshd_config
@@ -21,15 +30,15 @@
       line: '{{ item.line }}'
     with_items:
       - regexp: '^#?\s*Port'
-        line: 'Port {{ ansible_ssh_port }}'
+        line: 'Port {{ var_ansible_ssh_port }}'
       - regexp: '^#?\s*PermitRootLogin'
         line: 'PermitRootLogin no'
       - regexp: '^PasswordAuthentication yes'
         line: 'PasswordAuthentication no'
       - regexp: '^#?\s*PubkeyAuthentication'
         line: 'PubkeyAuthentication yes'
-    notify:
-      - Restart sshd
+    # notify:
+    # - Restart ssh.service
     tags:
       - construct
       - ssh
@@ -40,6 +49,44 @@
     ignore_errors: yes
   
   - debug: var=sshd_config_diff.stdout_lines
+
+  - name: Restart ssh service
+    systemd:
+      name: ssh.service
+      state: restarted
+      daemon_reload: yes
+      enabled: yes
+    async: 1
+    poll: 0
+    when: sshd_config_bkup.stat.exists == False
+  
+  - name: Wait for restart ssh service
+    wait_for: 
+      host: "{{ hostvars[inventory_hostname].ansible_host }}"
+      port: "{{ var_ansible_ssh_port }}"
+      delay: 30
+    when: sshd_config_bkup.stat.exists == False
+    delegate_to: executer
+
+  - name: Change ansible ssh port
+    set_fact:
+      ansible_port: "{{ var_ansible_ssh_port }}"
+    when: sshd_config_bkup.stat.exists == False
+
+  - name: Change ansible ssh user
+    set_fact:
+      ansible_ssh_user: "{{ var_ansible_user_name }}"
+    when: sshd_config_bkup.stat.exists == False
+
+  - name: Change ansible ssh key
+    set_fact:
+      ansible_ssh_private_key_file: "{{ var_ansible_ssh_key_pri_path }}"
+    when: sshd_config_bkup.stat.exists == False
+
+  - name: Change ansible sudo pass
+    set_fact:
+      ansible_sudo_pass: "{{ var_ansible_user_pwd }}"
+    when: sshd_config_bkup.stat.exists == False
 
   become: yes
   tags:

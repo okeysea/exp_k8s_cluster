@@ -1,0 +1,22 @@
+---
+
+- block:
+
+  - name: Create wheel group
+    group:
+      name: wheel
+      state: present
+
+  - name: Allow wheel group to sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^%wheel'
+      line: "%wheel ALL=(ALL:ALL) ALL"
+      insertafter: EOF
+      validate: "visudo -cf %s"
+
+  become: yes
+  tags:
+    - construct
+    - ansible_user

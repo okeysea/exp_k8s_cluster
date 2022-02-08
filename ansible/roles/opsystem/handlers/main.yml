@@ -2,9 +2,10 @@
 
 - block:
   
-  - name: Restart sshd
+  - name: Restart ssh.service
     become: yes
-    service:
-      name: sshd
+    systemd:
+      name: ssh.service
       state: restarted
+      daemon_reload: yes
       enabled: yes

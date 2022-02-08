@@ -2,13 +2,18 @@
 
 - block:
 
+  - name: Create ansible group
+    group:
+      name: "{{ var_ansible_user_group }}"
+      state: present
+
   - name: Create ansible user
     user:
-      name: "{{ ansible_user_name }}"
-      password: "{{ ansible_user_pwd }}"
-      groups: "{{ ansible_user_group }}"
+      name: "{{ var_ansible_user_name }}"
+      password: "{{ var_ansible_user_pwd }}"
+      groups: "{{ var_ansible_user_group }},wheel"
       shell: /bin/bash
-
+  
   become: yes
   tags:
     - construct
