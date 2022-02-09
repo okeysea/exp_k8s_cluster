@@ -9,7 +9,7 @@ ANSIBLE_INVENTORY=-i inventory/k8s_cluster.sh -i inventory/executers.yml
 ANSIBLE_ENTRY_PB=site.yml
 ANSIBLE_CMD=$(ANSIBLE_COMP_CMD) ansible-playbook $(ANSIBLE_INVENTORY) $(ANSIBLE_ENTRY_PB)
 
-.PHONY: ansible_syntax ansible_task ansible_dry ansible_apply ansible_inventory
+.PHONY: ansible_syntax ansible_task ansible_dry ansible_apply ansible_inventory ansible_apply_trace
 ansible_inventory:
 	$(ANSIBLE_COMP_CMD) ansible-inventory $(ANSIBLE_INVENTORY) --list
 
@@ -24,6 +24,9 @@ ansible_dry:
 
 ansible_apply:
 	$(ANSIBLE_CMD)
+
+ansible_apply_trace:
+	$(ANSIBLE_CMD) -vvvv
 
 #
 ###### TERRAFORM ######

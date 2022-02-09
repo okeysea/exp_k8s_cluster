@@ -10,7 +10,7 @@
   - name: Create ansible user
     user:
       name: "{{ var_ansible_user_name }}"
-      password: "{{ var_ansible_user_pwd }}"
+      password: "{{ var_ansible_user_pwd_hash }}"
       groups: "{{ var_ansible_user_group }},wheel"
       shell: /bin/bash
   

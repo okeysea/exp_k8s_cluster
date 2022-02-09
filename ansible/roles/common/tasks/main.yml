@@ -1,7 +1,2 @@
 ---
-- hosts: all
-  tasks:
-    - name: add authorized_key
-      authorized_key:
-        user: "{{user}}"
-        key: "{lookup('file', '/home/{{user}}/.ssh/id_rsa.pub')}"
+

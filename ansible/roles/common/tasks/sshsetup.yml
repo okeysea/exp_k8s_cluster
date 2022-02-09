@@ -1,0 +1,24 @@
+---
+
+- block:
+
+  - name: Change ansible ssh port
+    set_fact:
+      ansible_port: "{{ var_ansible_ssh_port }}"
+
+  - name: Change ansible ssh user
+    set_fact:
+      ansible_ssh_user: "{{ var_ansible_user_name }}"
+
+  - name: Change ansible ssh key
+    set_fact:
+      ansible_ssh_private_key_file: "{{ var_ansible_ssh_pri_path }}"
+
+  - name: Change ansible sudo pass
+    set_fact:
+      ansible_sudo_pass: "{{ var_ansible_user_pwd }}"
+
+  become: yes
+  tags:
+    - construct
+    - ssh
