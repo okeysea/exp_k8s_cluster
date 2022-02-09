@@ -35,7 +35,7 @@
 
 - name: Change ansible become user
   set_fact:
-    ansible_become_user: "{{ var_ansible_user_name }}"
+    ansible_become_user: "{{ var_ansible_become_user }}"
   delegate_to: "{{ host }}"
   delegate_facts: true
   when: test_custom_ssh_port.elapsed < 5
