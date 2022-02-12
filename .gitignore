@@ -12,3 +12,9 @@ ssh_keys/*
 !ssh_keys/.keep
 ssh_config/*
 !ssh_config/.keep
+
+# kubebin
+*/.kubebin/*
+!*/.kubebin/.keep
+*/.keys/*
+!*/.keys/.keep
