@@ -11,7 +11,8 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install --no-cache-dir -U pip && \
-    python3 -m pip install --no-cache-dir pipenv
+    python3 -m pip install --no-cache-dir pipenv && \
+    python3 -m pip install --no-cache-dir cryptography
 
 # Activate vertualenv
 RUN echo "if [[ -z \"\${VIRTUAL_ENV}\" ]]; then" >> /root/.bashrc && \
