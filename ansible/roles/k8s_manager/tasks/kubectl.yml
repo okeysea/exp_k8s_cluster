@@ -1,0 +1,30 @@
+---
+
+- block:
+
+  - name: Download kubectl binary
+    get_url:
+      url: "https://dl.k8s.io/release/{{ var_kubetools_version }}/bin/linux/amd64/kubectl"
+      checksum: "{{ var_kubetools_checksum_kubectl }}"
+      dest: "/ansible/.kubebin/"
+
+  - name: Install kubectl
+    copy:
+      remote_src: true
+      src: "/ansible/.kubebin/kubectl"
+      dest: /usr/local/bin
+      mode: +x
+  
+  - name: Verification kubectl
+    command: kubectl version --client
+    register: kubectl_version_client
+    ignore_errors: yes
+
+  - debug:
+      msg: "{{ inventory_hostname }} -> kubectl -> {{kubectl_version_client.stdout_lines}}"
+
+  become: yes
+  tags:
+    - construct
+    - executer
+    - kubectl
