@@ -1,0 +1,19 @@
+---
+
+- block:
+
+  - name: Load key info
+    include_vars:
+      file: ca_keys.yml
+
+  - name: Setup ansible ssh connections
+    include_tasks: itr_gen_key.yml
+    with_items: "{{ keyinfos }}"
+    loop_control:
+      loop_var: keyinfo
+
+  become: yes
+  tags:
+    - construct
+    - pki
+    - genkeys

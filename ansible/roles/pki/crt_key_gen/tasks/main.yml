@@ -1,0 +1,4 @@
+---
+
+- include_tasks: gen_ca_keys.yml
+- include_tasks: gen_keys.yml
