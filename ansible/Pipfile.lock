@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "317b86105eac498eb2ff0ec57bfeb1077ed615c3ee3895d07e72708f6366314f"
+            "sha256": "51800266cd85a85d0df5aca487a81c1503142563b004c1d4577ba79f0a32b129"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -108,7 +108,7 @@
                 "sha256:ebc15b1c22e55c4d5566e3ca4db8689470a0ca2babef8e3a9ee057a8b82ce4b1",
                 "sha256:ec63da4e7e4a5f924b90af42eddf20b698a70e58d86a72d943857c4c6045b3ee"
             ],
-            "markers": "python_version >= '3.6'",
+            "index": "pypi",
             "version": "==36.0.1"
         },
         "jinja2": {
@@ -262,6 +262,14 @@
                 "sha256:9b9b80d5c60e4c2a8b7fbf0712c3449dc01d74e215632e5199850c9eca687628"
             ],
             "version": "==0.5.4"
+        },
+        "setuptools": {
+            "hashes": [
+                "sha256:43a5575eea6d3459789316e1596a3d2a0d215260cacf4189508112f35c9a145b",
+                "sha256:66b8598da112b8dc8cd941d54cf63ef91d3b50657b374457eda5851f3ff6a899"
+            ],
+            "index": "pypi",
+            "version": "==60.8.2"
         }
     },
     "develop": {}
