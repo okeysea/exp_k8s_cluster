@@ -9,7 +9,3 @@ var_ansible_user_group: "{{ lookup('env', 'VAR_ANSIBLE_USER_GROUP') }}"
 var_ansible_ssh_key_name: "{{ lookup('env', 'SSH_KEY_NAME') }}"
 var_ansible_ssh_key_pri_path: "{{ '/root/.ssh/' ~ var_ansible_ssh_key_name ~ '.ansible_executer.id_rsa' }}"
 var_ansible_ssh_key_pub_path: "{{ var_ansible_ssh_key_pri_path ~ '.pub' }}"
-
-# from https://dl.k8s.io/release/stable.txt
-var_kubetools_version: "{{ lookup('env', 'VAR_KUBETOOLS_VERSION') }}"
-var_kubetools_checksum_kubectl: "{{ lookup('env', 'VAR_KUBETOOLS_CHECKSUM_KUBECTL') }}"

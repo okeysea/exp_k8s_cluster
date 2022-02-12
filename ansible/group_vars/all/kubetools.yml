@@ -1,0 +1,5 @@
+---
+
+# from https://dl.k8s.io/release/stable.txt
+var_kubetools_version: "{{ lookup('env', 'VAR_KUBETOOLS_VERSION') }}"
+var_kubetools_checksum_kubectl: "{{ lookup('env', 'VAR_KUBETOOLS_CHECKSUM_KUBECTL') }}"
