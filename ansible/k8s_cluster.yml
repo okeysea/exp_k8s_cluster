@@ -1,5 +1,10 @@
 ---
 
+- hosts: executers
+  gather_facts: true
+  roles:
+    - k8s_manager
+
 - hosts: all,!executers
   gather_facts: true
   become: true
@@ -8,3 +13,18 @@
   roles:
     - ansible_user
     - opsystem
+
+- hosts: executers
+  gather_facts: true
+  roles:
+    - pki/crt_key_gen
+    - pki/distribute_keys
+
+- hosts: all,!executers
+  gather_facts: true
+  become: true
+  vars:
+    executer_host: "executer"
+  roles:
+    - cri_containerd
+    - kubetools
