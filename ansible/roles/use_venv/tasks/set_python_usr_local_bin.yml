@@ -1,0 +1,13 @@
+---
+
+- block:
+  
+  - name: Change python3 interpreter path to usr/local/bin/python3
+    set_fact:
+      ansible_python_interpreter: /usr/local/bin/python3
+    delegate_to: "{{ inventory_hostname }}"
+    delegate_facts: true
+
+  become: true
+  tags:
+    - use_venv_python
