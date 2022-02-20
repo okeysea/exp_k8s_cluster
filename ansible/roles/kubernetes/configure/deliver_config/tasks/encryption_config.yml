@@ -1,0 +1,7 @@
+---
+
+- name: Create file encryption_key to {{ host }}
+  template:
+    src: encryption-config.yml.j2
+    dest: "/home/{{ var_ansible_user_name }}/encryption-config.yml"
+  delegate_to: "{{ host }}"

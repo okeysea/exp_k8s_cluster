@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+{#
+  Variables: example
+    cluster_name: kubernetes-cluster
+    ca_key_file_name: ca.key
+    server_url: https://${LOADBALANCER_ADDRESS}:5555
+    kube_config_file_name: kube-proxy.kubeconfig
+    credential_name: system:kube-proxy
+    client_certificate_file_name: kube-proxy.crt
+    client_key_file_name: kube-proxy.key
+#}
+
+{{ kubebin_path }}/kubectl config set-cluster {{ cluster_name }} \
+  --certificate-authority={{ kubekey_path }}/{{ ca_key_file_name }} \
+  --embed-certs=true \
+  --server={{ server_url }} \
+  --kubeconfig={{ kubeconfig_path }}/{{ kube_config_file_name }}
+
+{{ kubebin_path }}/kubectl config set-credentials {{ credential_name }} \
+  --client-certificate={{ kubekey_path }}/{{ client_certificate_file_name }} \
+  --client-key={{ kubekey_path }}/{{ client_key_file_name }} \
+  --embed-certs=true \
+  --kubeconfig={{ kubeconfig_path }}/{{ kube_config_file_name }}
+
+{{ kubebin_path }}/kubectl config set-context default \
+  --cluster={{ cluster_name }} \
+  --user={{ credential_name }} \
+  --kubeconfig={{ kubeconfig_path }}/{{ kube_config_file_name }}
+
+{{ kubebin_path }}/kubectl config use-context default --kubeconfig={{ kubeconfig_path }}/{{ kube_config_file_name }}
