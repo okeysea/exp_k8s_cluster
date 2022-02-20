@@ -22,6 +22,9 @@ ansible_task:
 ansible_dry:
 	$(ANSIBLE_CMD) --check
 
+ansible_dry_trace:
+	$(ANSIBLE_CMD) --check -vvvv
+
 ansible_apply:
 	$(ANSIBLE_CMD)
 
