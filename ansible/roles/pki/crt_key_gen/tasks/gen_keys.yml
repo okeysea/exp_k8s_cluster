@@ -2,9 +2,9 @@
 
 - block:
 
-  - name: Setup ansible ssh connections
+  - name: Create PKI keys
     include_tasks: itr_gen_key.yml
-    with_items: "{{ var_cluster_pki_config.keyinfos }}"
+    with_dict: "{{ var_cluster_pki_config.keyinfos }}"
     loop_control:
       loop_var: keyinfo
 
