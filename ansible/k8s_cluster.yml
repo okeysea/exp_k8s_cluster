@@ -17,8 +17,11 @@
 - hosts: executers
   gather_facts: true
   roles:
-    - pki/crt_key_gen
-    - pki/distribute_keys
+    - { role: pki/crt_key_gen }
+    - role: pki/distribute_keys
+      vars:
+        distribute_to: "{{ groups['k8s_masters'] }}"
+    - { role: kubernetes/configure/deliver_config }
 
 - hosts: all,!executers
   gather_facts: true
