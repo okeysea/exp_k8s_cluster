@@ -18,3 +18,5 @@ ssh_config/*
 !*/.kubebin/.keep
 */.keys/*
 !*/.keys/.keep
+*/.kubeconfig/*
+!*/.kubeconfig/.keep
