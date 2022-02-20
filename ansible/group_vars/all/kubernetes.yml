@@ -1,0 +1,10 @@
+---
+
+var_kubernetes_cluster_name: kubernetes-cluster
+var_kubernetes_loadbalancer_url: https://${LOADBALANCER_ADDRESS}:6443
+var_kubernetes_localhost_url: https://127.0.0.1:6443
+var_kubernetes_encryption_key: "{{ lookup('env', 'VAR_ENCRYPTION_KEY') }}"
+
+kubebin_path: /ansible/.kubebin
+kubeconfig_path: /ansible/.kubeconfig
+kubekey_path: /ansible/.keys

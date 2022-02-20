@@ -1,0 +1,73 @@
+---
+
+var_cluster_pki_config:
+
+  key_names:
+    admin: admin
+    controller_manager: kube-controller-manager
+    proxy: kube-proxy
+    scheduler: kube-scheduler
+    api_server: kube-apiserver
+    etcd_server: etcd-server
+    service_account: service-account
+
+  keyinfos:
+    admin:
+      keyname: admin
+      common_name: admin
+      use_common_name_for_san: false
+      subject:
+        CN: admin
+        O: system:masters
+
+    controller_manager:
+      keyname: kube-controller-manager
+      common_name: system:kube-controller-manager
+      use_common_name_for_san: false
+      subject:
+        CN: system:kube-controller-manager
+
+    proxy:
+      keyname: kube-proxy
+      common_name: system:kube-proxy
+      use_common_name_for_san: false
+      subject:
+        CN: system:kube-proxy
+
+    scheduler:
+      keyname: kube-scheduler
+      common_name: system:kube-scheduler
+      use_common_name_for_san: false
+      subject:
+        CN: system:kube-scheduler
+
+    apiserver:
+      keyname: kube-apiserver
+      common_name: kube-apiserver
+      use_common_name_for_san: false
+      subject_alt_name:
+        - DNS.1=kubernetes
+        - DNS.2=kubernetes.default
+        - DNS.3=kubernetes.default.svc
+        - DNS.4=kubernetes.default.svc.cluster.local
+        - IP.1=10.96.0.1
+        - IP.2=192.168.5.11
+        - IP.3=192.168.5.12
+        - IP.4=192.168.5.30
+        - IP.5=127.0.0.1
+
+    etcd_server:
+      keyname: etcd-server
+      common_name: etcd-server
+      use_common_name_for_san: false
+      subject_alt_name:
+        - IP.1=192.168.5.11
+        - IP.2=192.168.5.12
+        - IP.3=127.0.0.1
+
+    service_account:
+      keyname: service-account
+      common_name: service-accounts
+      use_common_name_for_san: false
+      subject:
+        CN: system:service-accounts

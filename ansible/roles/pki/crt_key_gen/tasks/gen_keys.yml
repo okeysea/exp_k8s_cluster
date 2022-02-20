@@ -1,0 +1,15 @@
+---
+
+- block:
+
+  - name: Create PKI keys
+    include_tasks: itr_gen_key.yml
+    with_dict: "{{ var_cluster_pki_config.keyinfos }}"
+    loop_control:
+      loop_var: keyinfo
+
+  become: yes
+  tags:
+    - construct
+    - pki
+    - genkeys

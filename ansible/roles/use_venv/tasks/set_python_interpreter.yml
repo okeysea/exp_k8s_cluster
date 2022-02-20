@@ -1,0 +1,20 @@
+---
+
+- block:
+  
+  - name: Detect python3 venv path
+    command: which python3
+    register: env_python3_path
+
+  - debug:
+      msg: "python env -> {{ env_python3_path.stdout_lines }}"
+
+  - name: Change python3 interpreter path
+    set_fact:
+      ansible_python_interpreter: "{{ env_python3_path.stdout_lines }}"
+    delegate_to: "{{ inventory_hostname }}"
+    delegate_facts: true
+
+  become: true
+  tags:
+    - use_venv_python

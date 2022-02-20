@@ -1,0 +1,18 @@
+---
+
+#
+# item.0 -> host
+# item.1 -> key name (hash key)
+#
+
+- name: Copy PKI private {{ var_cluster_pki_config.key_names[item.1] }}.key to {{ item.0 }}
+  copy:
+    src: "/ansible/.keys/{{ var_cluster_pki_config.key_names[item.1] }}.key"
+    dest: "/home/{{ var_ansible_user_name }}"
+  delegate_to: "{{ item.0 }}"
+
+- name: Copy PKI crt {{ var_cluster_pki_config.key_names[item.1] }}.crt to {{ item.0 }}
+  copy:
+    src: "/ansible/.keys/{{ var_cluster_pki_config.key_names[item.1] }}.crt"
+    dest: "/home/{{ var_ansible_user_name }}"
+  delegate_to: "{{ item.0 }}"

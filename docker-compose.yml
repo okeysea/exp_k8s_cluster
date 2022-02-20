@@ -26,6 +26,7 @@ services:
       - python-packages:/root/.local/share
     working_dir: /ansible
     tty: true
+    network_mode: host
 
 volumes:
   python-packages:

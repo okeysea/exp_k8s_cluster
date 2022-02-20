@@ -1,0 +1,12 @@
+---
+
+- block:
+
+  - name: Create encryption config dirctory
+    file: path=/var/lib/kubernetes/ state=directory owner=root group=root mode=0755
+
+  become: yes
+  tags:
+    - construct
+    - kubernetes
+    - encryption_config

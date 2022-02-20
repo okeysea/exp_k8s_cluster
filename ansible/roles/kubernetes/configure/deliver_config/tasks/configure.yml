@@ -1,0 +1,77 @@
+---
+- block:
+
+  - name: Configre to kube-proxy
+    include_tasks: template_configure.yml
+    with_inventory_hostnames:
+      - k8s_workers
+    loop_control:
+      loop_var: host
+    vars:
+      cluster_name: "{{ var_kubernetes_cluster_name }}"
+      ca_key_file_name: ca.key
+      server_url: "{{ var_kubernetes_loadbalancer_url }}"
+      kube_config_file_name: "{{ var_cluster_pki_config.key_names.proxy }}.kubeconfig"
+      credential_name: "{{ var_cluster_pki_config.keyinfos.proxy.common_name }}"
+      client_certificate_file_name: "{{ var_cluster_pki_config.key_names.proxy }}.crt"
+      client_key_file_name: "{{ var_cluster_pki_config.key_names.proxy }}.key"
+
+  - name: Configre to kube-controller-manager
+    include_tasks: template_configure.yml
+    with_inventory_hostnames:
+      - k8s_masters
+    loop_control:
+      loop_var: host
+    vars:
+      cluster_name: "{{ var_kubernetes_cluster_name }}"
+      ca_key_file_name: ca.key
+      server_url: "{{ var_kubernetes_localhost_url }}"
+      kube_config_file_name: "{{ var_cluster_pki_config.key_names.controller_manager }}.kubeconfig"
+      credential_name: "{{ var_cluster_pki_config.keyinfos.controller_manager.common_name }}"
+      client_certificate_file_name: "{{ var_cluster_pki_config.key_names.controller_manager }}.crt"
+      client_key_file_name: "{{ var_cluster_pki_config.key_names.controller_manager }}.key"
+
+  - name: Configre to kube-scheduler
+    include_tasks: template_configure.yml
+    with_inventory_hostnames:
+      - k8s_masters
+    loop_control:
+      loop_var: host
+    vars:
+      cluster_name: "{{ var_kubernetes_cluster_name }}"
+      ca_key_file_name: ca.key
+      server_url: "{{ var_kubernetes_localhost_url }}"
+      kube_config_file_name: "{{ var_cluster_pki_config.key_names.scheduler }}.kubeconfig"
+      credential_name: "{{ var_cluster_pki_config.keyinfos.scheduler.common_name }}"
+      client_certificate_file_name: "{{ var_cluster_pki_config.key_names.scheduler }}.crt"
+      client_key_file_name: "{{ var_cluster_pki_config.key_names.scheduler }}.key"
+
+  - name: Configre to admin
+    include_tasks: template_configure.yml
+    with_inventory_hostnames:
+      - k8s_masters
+    loop_control:
+      loop_var: host
+    vars:
+      cluster_name: "{{ var_kubernetes_cluster_name }}"
+      ca_key_file_name: ca.key
+      server_url: "{{ var_kubernetes_localhost_url }}"
+      kube_config_file_name: "{{ var_cluster_pki_config.key_names.admin }}.kubeconfig"
+      credential_name: "{{ var_cluster_pki_config.keyinfos.admin.common_name }}"
+      client_certificate_file_name: "{{ var_cluster_pki_config.key_names.admin }}.crt"
+      client_key_file_name: "{{ var_cluster_pki_config.key_names.admin }}.key"
+
+  - name: Configre encryption
+    include_tasks: encryption_config.yml
+    with_inventory_hostnames:
+      - k8s_masters
+    loop_control:
+      loop_var: host
+    vars:
+      encryption_key: "{{ var_kubernetes_encryption_key }}"
+
+  become: yes
+  tags:
+    - construct
+    - kubernetes
+    - configure

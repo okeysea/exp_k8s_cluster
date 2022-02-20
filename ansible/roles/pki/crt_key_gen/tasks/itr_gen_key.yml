@@ -1,0 +1,24 @@
+---
+
+- name: Create {{ keyinfo.value.keyname }}.key
+  community.crypto.openssl_privatekey:
+    path: "/ansible/.keys/{{ keyinfo.value.keyname }}.key"
+    size: 2048
+    type: RSA
+
+- name: Create certificate signing request (CSR) for {{keyinfo.value.keyname}} certificate
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "/ansible/.keys/{{ keyinfo.value.keyname }}.key"
+    common_name: "{{ keyinfo.value.common_name }}"
+    use_common_name_for_san: "{{ keyinfo.value.use_common_name_for_san | default(omit) }}"
+    subject: "{{ keyinfo.value.subject | default(omit) }}"
+  register: ca_csr_item
+
+- name: Create self-signed CA {{ keyinfo.value.keyname }} certificate from CSR
+  community.crypto.x509_certificate:
+    path: "/ansible/.keys/{{ keyinfo.value.keyname }}.crt"
+    csr_content: "{{ ca_csr_item.csr }}"
+    privatekey_path: /ansible/.keys/{{ keyinfo.value.keyname }}.key
+    ownca_path: /ansible/.keys/ca.crt
+    ownca_privatekey_path: /ansible/.keys/ca.key
+    provider: ownca

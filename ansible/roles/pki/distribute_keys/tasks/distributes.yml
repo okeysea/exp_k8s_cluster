@@ -1,0 +1,13 @@
+---
+
+- block:
+
+  - name: Distrubute PKI keys
+    include_tasks: itr_distribute.yml
+    loop: "{{ distribute_to | product(var_cluster_pki_config.key_names) }}"
+  
+  become: yes
+  tags:
+    - construct
+    - pki
+    - distribute_keys

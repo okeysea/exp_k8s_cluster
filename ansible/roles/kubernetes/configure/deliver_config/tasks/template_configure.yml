@@ -1,0 +1,15 @@
+---
+
+- name: Create configre file Generate script
+  template:
+    src: template.sh.j2
+    dest: "{{ kubeconfig_path }}/{{kube_config_file_name}}.sh"
+
+- name: Run generate script
+  script: "{{ kubeconfig_path }}/{{kube_config_file_name}}.sh"
+
+- name: Distribute configre file {{ kube_config_file_name }} to {{ host }}
+  copy:
+    src: "{{ kubeconfig_path }}/{{kube_config_file_name}}"
+    dest: "/home/{{ var_ansible_user_name }}/{{ kube_config_file_name }}"
+  delegate_to: "{{ host }}"

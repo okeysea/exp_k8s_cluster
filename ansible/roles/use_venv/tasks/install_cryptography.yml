@@ -1,0 +1,11 @@
+---
+
+- block:
+  
+  - name: Install cryptography
+    pip:
+      name: cryptography
+
+  become: true
+  tags:
+    - use_venv_python
