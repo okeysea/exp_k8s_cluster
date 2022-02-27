@@ -2,11 +2,16 @@
 
 - block:
 
-  - name: Create encryption config dirctory
-    file: path=/var/lib/kubernetes/ state=directory owner=root group=root mode=0755
+  - name: Place the encryption config
+    include_tasks: itr_place.yml
+    with_inventory_hostnames:
+      - k8s_masters
+    loop_control:
+      loop_var: host
 
   become: yes
   tags:
     - construct
     - kubernetes
     - encryption_config
+    - place

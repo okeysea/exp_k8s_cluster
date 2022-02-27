@@ -1,0 +1,12 @@
+---
+
+- name: Create encryption config dirctory
+  file: path=/var/lib/kubernetes/ state=directory owner=root group=root mode=0755
+  delegate_to: "{{ host }}"
+
+- name: Place the config file in the encryption configuration directory
+  copy:
+    src: "/home/{{ var_ansible_user_name }}/encryption-config.yml"
+    dest: /var/lib/kubernetes/encryption-config.yml
+    remote_src: yes
+  delegate_to: "{{ host }}"
