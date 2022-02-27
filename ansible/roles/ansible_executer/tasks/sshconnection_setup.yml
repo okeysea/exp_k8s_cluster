@@ -11,6 +11,7 @@
     timeout: 5
   register: test_custom_ssh_port
   failed_when: false
+  check_mode: no
 
 - name: Change ansible ssh port
   set_fact:
