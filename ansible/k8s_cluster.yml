@@ -21,7 +21,7 @@
     - role: pki/distribute_keys
       vars:
         distribute_to: "{{ groups['k8s_masters'] }}"
-    - { role: kubernetes/configure/deliver_config }
+    - { role: kubernetes/configure/certificate_config }
 
 - hosts: all,!executers
   gather_facts: true

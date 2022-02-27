@@ -1,0 +1,17 @@
+---
+- block:
+
+  - name: Deliver encryption config
+    include_tasks: encryption_config.yml
+    with_inventory_hostnames:
+      - k8s_masters
+    loop_control:
+      loop_var: host
+    vars:
+      encryption_key: "{{ var_kubernetes_encryption_key }}"
+
+  become: yes
+  tags:
+    - construct
+    - kubernetes
+    - encryption_configure

@@ -61,15 +61,6 @@
       client_certificate_file_name: "{{ var_cluster_pki_config.key_names.admin }}.crt"
       client_key_file_name: "{{ var_cluster_pki_config.key_names.admin }}.key"
 
-  - name: Configre encryption
-    include_tasks: encryption_config.yml
-    with_inventory_hostnames:
-      - k8s_masters
-    loop_control:
-      loop_var: host
-    vars:
-      encryption_key: "{{ var_kubernetes_encryption_key }}"
-
   become: yes
   tags:
     - construct
