@@ -8,38 +8,66 @@ resource "vultr_ssh_key" "k8s_ssh_key" {
   ssh_key = tls_private_key.keygen.public_key_openssh
 }
 
+#### VPC
+
+resource "vultr_private_network" "k8s_network" {
+  description    = "k8s_cluster_vpc"
+  region         = var.vultr_region
+  v4_subnet      = "10.0.0.0"
+  v4_subnet_mask = 24
+}
+
 #### instances
 
-resource "vultr_instance" "k8s_master" {
-  plan        = var.k8s_master_plan
-  region      = var.vultr_region
-  os_id       = var.k8s_os_id
-  label       = "k8s_master_node"
-  tag         = "k8s master"
-  hostname    = "k8s_master_host"
-  ssh_key_ids = [vultr_ssh_key.k8s_ssh_key.id]
+resource "vultr_instance" "k8s_masters" {
+  count               = var.k8s_masters
+  plan                = var.k8s_master_plan
+  region              = var.vultr_region
+  os_id               = var.k8s_os_id
+  label               = "k8s_master_node_${count.index}"
+  tag                 = "k8s master"
+  hostname            = "k8s_master_host_${count.index}"
+  ssh_key_ids         = [vultr_ssh_key.k8s_ssh_key.id]
+  private_network_ids = [vultr_private_network.k8s_network.id]
+}
+
+resource "vultr_instance" "k8s_workers" {
+  count               = var.k8s_workers
+  plan                = var.k8s_worker_plan
+  region              = var.vultr_region
+  os_id               = var.k8s_os_id
+  label               = "k8s_worker_node_${count.index}"
+  tag                 = "k8s worker"
+  hostname            = "k8s_worker_host_${count.index}"
+  ssh_key_ids         = [vultr_ssh_key.k8s_ssh_key.id]
+  private_network_ids = [vultr_private_network.k8s_network.id]
 }
 
 #### make ssh config
 resource "local_file" "ssh_config" {
   filename = local.ssh_config_file
   content  = <<-EOF
-  Host ${vultr_instance.k8s_master.label}
+  # k8s masters
+  %{ for ins in vultr_instance.k8s_masters.* }
+  Host ${ins.label} ${ins.main_ip}
       User root
-      Hostname ${vultr_instance.k8s_master.main_ip}
+      Hostname ${ins.main_ip}
       IdentityFile ${local.private_key_file}
       StrictHostKeyChecking no
       UserKnownHostsFile /dev/null
       Port 22
+  %{ endfor }
 
-  # alias -> ${vultr_instance.k8s_master.label} 
-  Host ${vultr_instance.k8s_master.main_ip}
+  # k8s workers
+  %{ for ins in vultr_instance.k8s_workers.* }
+  Host ${ins.label} ${ins.main_ip}
       User root
-      Hostname ${vultr_instance.k8s_master.main_ip}
+      Hostname ${ins.main_ip}
       IdentityFile ${local.private_key_file}
       StrictHostKeyChecking no
       UserKnownHostsFile /dev/null
       Port 22
+  %{ endfor }
   EOF
 
   provisioner "local-exec" {
