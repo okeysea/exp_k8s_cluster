@@ -22,12 +22,13 @@
       vars:
         distribute_to: "{{ groups['k8s_masters'] }}"
     - { role: kubernetes/configure/certificate_config }
+    - { role: kubernetes/configure/encryption_config }
 
-- hosts: all,!executers
-  gather_facts: true
-  become: true
-  vars:
-    executer_host: "executer"
-  roles:
-    - cri_containerd
-    - kubetools
+# - hosts: all,!executers
+#   gather_facts: true
+#   become: true
+#   vars:
+#     executer_host: "executer"
+#   roles:
+#     - cri_containerd
+#     - kubetools
