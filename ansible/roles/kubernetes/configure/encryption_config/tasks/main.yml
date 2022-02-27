@@ -1,4 +1,4 @@
 ---
 
 - include_tasks: deliver_config.yml
-- include_tasks: make_dir.yml
+- include_tasks: place.yml
